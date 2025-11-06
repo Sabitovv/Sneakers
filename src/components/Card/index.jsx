@@ -24,6 +24,10 @@ function Card({
     onFavorite(obj);
     setIsFavorite(!isFavorite);
   };
+  const publicUrl = import.meta.env.BASE_URL || '';
+  
+  const safeImageUrl = imageUrl || ''; 
+  const pathWithoutLeadingSlash = safeImageUrl.startsWith('/') ? safeImageUrl.substring(1) : safeImageUrl;
 
   return (
     <div className="border border-gray-100 rounded-3xl p-6 w-56 mr-6 mb-6 transition-shadow duration-200 hover:shadow-lg hover:-translate-y-1">
@@ -45,10 +49,19 @@ function Card({
         <>
           {onFavorite && (
             <div className="absolute cursor-pointer" onClick={onClickFavorite}>
-              <img src={isFavorite ? 'img/liked.svg' : 'img/unliked.svg'} alt="Unliked" />
+              <img
+                src={`${publicUrl}img/${isFavorite ? 'liked.svg' : 'unliked.svg'}`}
+                alt="Unliked"
+              />
             </div>
           )}
-          <img width="100%" height={135} src={imageUrl} alt="Sneakers" className="mb-3" />
+          <img 
+            width="100%" 
+            height={135} 
+            src={`${publicUrl}${pathWithoutLeadingSlash}`} 
+            alt="Sneakers" 
+            className="mb-3" 
+          />
           <h5 className="text-sm font-normal mb-2">{title}</h5>
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
@@ -59,7 +72,7 @@ function Card({
               <img
                 className="cursor-pointer"
                 onClick={onClickPlus}
-                src={isItemAdded(id) ? 'img/btn-checked.svg' : 'img/btn-plus.svg'}
+                src={`${publicUrl}img/${isItemAdded(id) ? 'btn-checked.svg' : 'btn-plus.svg'}`}
                 alt="Plus"
               />
             )}

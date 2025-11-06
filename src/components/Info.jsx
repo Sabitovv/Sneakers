@@ -3,6 +3,8 @@ import AppContext from '../context';
 
 const Info = ({ title, image, description }) => {
   const { setCartOpened } = React.useContext(AppContext);
+  
+  const publicUrl = import.meta.env.BASE_URL || ''; 
 
   return (
     <div className="flex flex-col items-center justify-center text-center p-5 flex-1">
@@ -12,7 +14,8 @@ const Info = ({ title, image, description }) => {
       <button
         onClick={() => setCartOpened(false)}
         className="w-56 h-14 bg-green-500 rounded-xl text-white font-medium text-base cursor-pointer hover:bg-green-600 transition-colors duration-100 flex items-center justify-center">
-        <img src="img/arrow.svg" alt="Arrow" className="mr-3" />
+
+        <img src={`${publicUrl}img/arrow.svg`} alt="Arrow" className="mr-3" />
         Вернуться назад
       </button>
     </div>

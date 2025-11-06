@@ -58,7 +58,7 @@ function App() {
       if (findItem) {
         setCartItems((prev) => prev.filter((item) => Number(item.parentId) !== Number(obj.id)));
       } else {
-        setCartItems((prev) => [...prev, {...obj, id: Date.now().toString()}]);
+        setCartItems((prev) => [...prev, { ...obj, id: Date.now().toString() }]);
       }
     } catch (error) {
       alert('Ошибка при добавлении в корзину');
@@ -107,7 +107,8 @@ function App() {
         onAddToCart,
         setCartOpened,
         setCartItems,
-      }}>
+      }}
+    >
       <div className="bg-white shadow-lg rounded-2xl max-w-6xl mx-4 md:mx-auto my-12 relative">
         <Drawer
           items={cartItems}
@@ -120,7 +121,7 @@ function App() {
 
         <Routes>
           <Route 
-            path="/" 
+            path="" 
             element={
               <Home
                 items={items}
@@ -136,12 +137,12 @@ function App() {
           />
 
           <Route 
-            path="/favorites" 
+            path="favorites" 
             element={<Favorites />} 
           />
 
           <Route 
-            path="/orders" 
+            path="orders" 
             element={<Orders />} 
           />
         </Routes>

@@ -7,6 +7,8 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
   const [orderId, setOrderId] = React.useState(null);
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  
+  const publicUrl = import.meta.env.BASE_URL || ''; 
 
   const onClickOrder = async () => {
     try {
@@ -49,7 +51,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
           <img
             onClick={onClose}
             className="cursor-pointer"
-            src="img/btn-remove.svg"
+            src={`${publicUrl}img/btn-remove.svg`}
             alt="Close"
           />
         </h2>
@@ -57,12 +59,15 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
         {items.length > 0 ? (
           <div className="flex flex-col h-full">
             <div className="flex-1 overflow-auto mb-10">
-              {items.map((obj) => (
+              {items.map((obj) => { 
+                  const safeImageUrl = obj.imageUrl || '';
+                  const itemPath = safeImageUrl.startsWith('/') ? safeImageUrl.substring(1) : safeImageUrl;
+                  return ( 
                 <div
                   key={obj.id}
                   className="flex items-center border border-gray-100 rounded-2xl p-5 mb-5">
                   <div
-                    style={{ backgroundImage: `url(${obj.imageUrl})` }}
+                    style={{ backgroundImage: `url(${publicUrl}${itemPath})` }}
                     className="w-16 h-16 bg-contain bg-center bg-no-repeat mr-5"></div>
 
                   <div className="flex-1 mr-5">
@@ -72,11 +77,11 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                   <img
                     onClick={() => onRemove(obj.id)}
                     className="opacity-50 cursor-pointer hover:opacity-100 transition-opacity duration-150"
-                    src="img/btn-remove.svg"
+                    src={`${publicUrl}img/btn-remove.svg`}
                     alt="Remove"
                   />
                 </div>
-              ))}
+              )})}
             </div>
             <div className="mb-10">
               <ul className="space-y-5 mb-10">
@@ -97,7 +102,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                 className="w-full h-14 bg-green-500 rounded-xl text-white font-medium text-base cursor-pointer disabled:bg-gray-400 disabled:cursor-default hover:bg-green-600 transition-colors duration-100 relative">
                 Оформить заказ
                 <img
-                  src="img/arrow.svg"
+                  src={`${publicUrl}img/arrow.svg`}
                   alt="Arrow"
                   className="absolute right-8 top-1/2 transform -translate-y-1/2"
                 />
@@ -112,7 +117,11 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                 ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
                 : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
             }
-            image={isOrderComplete ? 'img/complete-order.jpg' : 'img/empty-cart.jpg'}
+            image={
+              isOrderComplete 
+                ? `${publicUrl}img/complete-order.jpg` 
+                : `${publicUrl}img/empty-cart.jpg`
+            }
           />
         )}
       </div>
